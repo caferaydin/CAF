@@ -1,0 +1,19 @@
+﻿
+.filter-input {
+    display: none; /* Başlangıçta gizle */
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 5px;
+}
+
+.filter-icon {
+    cursor: pointer;
+}
+
+.filter-input.active {
+    display: block; 
+}
+
+th {
+    cursor: pointer;
+}

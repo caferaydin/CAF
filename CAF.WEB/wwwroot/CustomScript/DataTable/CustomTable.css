@@ -1,0 +1,88 @@
+﻿/* Sayfalama ve arama özelleştirmeleri */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0.5em 1em;
+    font-size: 1em;
+}
+
+.dataTables_wrapper .dataTables_length {
+    float: left; /* "Show X entries" kısmını sola alır */
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    width: 250px; /* Arama kutusunu büyütür */
+    padding: 0.5em;
+}
+
+.dataTables_wrapper .dataTables_info {
+    clear: both; /* Bilgi kısmının düzgün görünmesi için */
+}
+
+/* Sayfalama düğmelerini stilize et */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0.5em 1em;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 0 2px;
+    color: #007bff;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        background-color: #e9ecef;
+        color: #0056b3;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+        background-color: #007bff;
+        color: #ffffff;
+        border: 1px solid #007bff;
+    }
+
+.card-footer {
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
+
+.dataTables_wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.dataTables_length,
+.dataTables_filter {
+    margin-bottom: 10px;
+}
+
+.dataTables_info {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.dataTables_paginate {
+    text-align: right;
+}
+
+.dataTables_length select,
+.dataTables_filter input {
+    margin: 0;
+    display: inline-block;
+}
+
+.dataTables_length {
+    flex: 1;
+}
+
+.dataTables_filter {
+    flex: 1;
+}
+
+.dataTables_info {
+    flex: 1;
+}
+
+.dataTables_paginate {
+    flex: 1;
+}
