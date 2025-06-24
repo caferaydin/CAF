@@ -1,8 +1,21 @@
+using CAF.Persistence;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+#region Added 
+builder.Services.AddPersistenceServices(builder.Configuration);
+
+builder.Services.AddAuthentication("Identity.Application")
+    .AddCookie("Identity.Application", options =>
+    {
+        options.LoginPath = "/Account/Login";
+        options.LogoutPath = "/Account/Logout";
+        options.AccessDeniedPath = "/Account/AccessDenied";
+    });
+#endregion
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

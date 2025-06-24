@@ -7,11 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\CAF.Application\CAF.Application.csproj" />
+    <Folder Include="Domain\" />
+    <Folder Include="Contexts\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

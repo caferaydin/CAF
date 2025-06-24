@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAF.Infrastructure", "CAF.I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAF.WEB", "CAF.WEB\CAF.WEB.csproj", "{8FFD48CF-4A4F-4C3D-BF18-816060DF7E29}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "KronosEnergy", "KronosEnergy", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kronos.StationModule", "KronosEnergy\Kronos.StationModule\Kronos.StationModule.csproj", "{6EE02EF8-1FD4-48DF-A243-789D9551D725}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,9 +43,16 @@ Global
 		{8FFD48CF-4A4F-4C3D-BF18-816060DF7E29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FFD48CF-4A4F-4C3D-BF18-816060DF7E29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FFD48CF-4A4F-4C3D-BF18-816060DF7E29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EE02EF8-1FD4-48DF-A243-789D9551D725}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EE02EF8-1FD4-48DF-A243-789D9551D725}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EE02EF8-1FD4-48DF-A243-789D9551D725}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EE02EF8-1FD4-48DF-A243-789D9551D725}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6EE02EF8-1FD4-48DF-A243-789D9551D725} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5788AEE4-E6A9-4284-A044-85D83428B1F3}

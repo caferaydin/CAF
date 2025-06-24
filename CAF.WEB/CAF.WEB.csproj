@@ -6,4 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CAF.Infrastructure\CAF.Infrastructure.csproj" />
+    <ProjectReference Include="..\CAF.Persistence\CAF.Persistence.csproj" />
+  </ItemGroup>
+
 </Project>
