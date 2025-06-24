@@ -1,7 +1,7 @@
 ﻿using CAF.Domain.Enums;
 using Microsoft.AspNetCore.Identity;
 
-namespace CAF.Domain.Authentication;
+namespace CAF.Domain.Entities.Authentication;
 
 public class AppUser : IdentityUser
 {

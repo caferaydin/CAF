@@ -6,4 +6,22 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Const\" />
+    <Folder Include="Mapping\" />
+    <Folder Include="Validators\" />
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mapster" Version="7.4.0" />
+    <PackageReference Include="Mapster.DependencyInjection" Version="1.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.3.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CAF.Domain\CAF.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
