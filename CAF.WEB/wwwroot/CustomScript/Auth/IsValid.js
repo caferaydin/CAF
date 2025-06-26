@@ -6,7 +6,7 @@ $(document).ready(function () {
 
         if (username.length >= 3) {
             $.ajax({
-                url: '/Users/CheckUsername',
+                url: '/Auth/Users/checkUsername',
                 type: 'GET',
                 data: { username: username },
                 success: function (isUnique) {
@@ -35,7 +35,7 @@ $(document).ready(function () {
             // E-posta uzunluğu yeterli ise benzersizliğini kontrol et
             if (email.length >= 10) {
                 $.ajax({
-                    url: '/Users/CheckEmail',
+                    url: '/Auth/Users/checkEmail',
                     type: 'GET',
                     data: { email: email },
                     success: function (isUnique) {
@@ -67,7 +67,7 @@ $(document).ready(function () {
 
         if (cleanedPhone.length >= 10) {
             $.ajax({
-                url: '/Users/CheckPhone',
+                url: '/Auth/Users/checkPhone',
                 type: 'GET',
                 data: { phone: cleanedPhone },
                 success: function (isUnique) {

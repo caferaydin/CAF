@@ -1,0 +1,45 @@
+﻿﻿@{
+    ViewData["Title"] = "Login";
+}
+
+
+<!Doctype html>
+<html lang="en" dir="ltr">
+
+<head>
+    @await Html.PartialAsync("~/Views/ManagerLayoutPartial/_HeadPartial.cshtml")
+</head>
+
+<body class="app sidebar-mini ltr login-img">
+
+    <div class="">
+
+        <div id="global-loader">
+            <img src="~/assets/images/loader.svg" class="loader-img" alt="Loader">
+        </div>
+
+
+        @await Component.InvokeAsync("Login")
+
+
+    </div>
+
+    <script src="~/assets/js/jquery.min.js"></script>
+
+    <script src="~/assets/plugins/bootstrap/js/popper.min.js"></script>
+    <script src="~/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/assets/js/show-password.min.js"></script>
+    <script src="~/assets/js/generate-otp.js"></script>
+    <script src="~/assets/plugins/p-scroll/perfect-scrollbar.js"></script>
+    <script src="~/assets/js/themeColors.js"></script>
+    <script src="~/assets/js/custom.js"></script>
+    <script src="~/assets/js/custom-swicher.js"></script>
+    <script src="~/assets/switcher/js/switcher.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+
+
+</body>
+
+</html>

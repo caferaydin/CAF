@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
 using CAF.Application.Helpers;
 using CAF.Application.Abstractions.Services.ExternalService;
+using CAF.Application.Models.Common;
 
 namespace CAF.Persistence.Services.Authentication;
 
@@ -33,7 +34,7 @@ public class AuthService : IAuthService
         _mailService = mailService;
     }
 
-    public async Task<Token> LoginAsync(LoginRequest request)
+    public async Task<ResultModel<Token>> LoginAsync(LoginRequest request)
     {
         AppUser user = await _userManager.FindByNameAsync(request.UsernameOrEmailOrPhone);
         if (user == null)
@@ -49,14 +50,21 @@ public class AuthService : IAuthService
             Token tokenResponse = await _tokenHandler.CreateAccessToken(request.AccessTokenLifeTime, user);
             var token = _mapper.Map<Token>(tokenResponse);
             await _userService.UpdateRefreshTokenAsync(token.RefreshToken, user, token.Expiration, 15);
-            return token;
+
+            return new()
+            {
+                Data = token,
+                ResultCode = ResultHelpers.GetResultCode(token),
+                ResultMessage = "Giriş başarılı.",
+            };
         }
         throw new AuthenticationErrorException();
     }
 
-    public async Task PasswordResetAsync(PasswordResetRequest request)
+    public async Task<bool> PasswordResetAsync(PasswordResetRequest request)
     {
         AppUser user = await _userManager.FindByEmailAsync(request.Email);
+
         if (user != null)
         {
             string resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -66,10 +74,12 @@ public class AuthService : IAuthService
             resetToken = resetToken.UrlEncode();
 
             await _mailService.SendPasswordResetMailAsync(request.Email, user.Id, resetToken);
+            return true;
         }
+        return false;
     }
 
-    public async Task<Token> RefreshTokenLoginAsync(RefreshTokenRequest request)
+    public async Task<ResultModel<Token>> RefreshTokenLoginAsync(RefreshTokenRequest request)
     {
         AppUser? user = await _userManager.Users.FirstOrDefaultAsync(u => u.RefreshToken == request.RefreshToken);
         if (user != null && user?.RefreshTokenEndDate > DateTime.Now)
@@ -78,7 +88,12 @@ public class AuthService : IAuthService
             var token = _mapper.Map<Token>(tokenResponse);
 
             await _userService.UpdateRefreshTokenAsync(token.RefreshToken, user, token.Expiration, 300);
-            return token;
+            return new()
+            {
+                Data = token,
+                ResultCode = ResultHelpers.GetResultCode(token),
+                ResultMessage = "Token yenilendi.",
+            };
         }
         else
             throw new NotFoundUserException();

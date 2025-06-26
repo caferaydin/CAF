@@ -1,0 +1,160 @@
+﻿@using CAF.Application.Models.Permission.VM
+@using CAF.WEB.Helpers
+
+@inject Microsoft.AspNetCore.Mvc.IUrlHelper Url
+
+@model List<NavigationMenuViewModel>
+
+
+<div class="sticky">
+    <div class="app-sidebar__overlay" data-bs-toggle="sidebar"></div>
+    <div class="app-sidebar">
+        <div class="side-header">
+            <a class="header-brand1" href="/">
+                <img src="~/assets/images/brand/logo-white.png" class="header-brand-img desktop-logo" alt="logo">
+                <img src="~/assets/images/brand/icon-white.png" class="header-brand-img toggle-logo" alt="logo">
+                <img src="~/assets/images/brand/icon-dark.png" class="header-brand-img light-logo" alt="logo">
+                <img src="~/assets/images/brand/logo-dark.png" class="header-brand-img light-logo1" alt="logo">
+            </a>
+        </div>
+
+        <div class="main-sidemenu">
+            <div class="slide-left disabled" id="slide-left">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M13.293 6.293L7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z" />
+                </svg>
+            </div>
+
+            <ul class="side-menu">
+                <li class="sub-category">
+                    <h3>      Control Panel  </h3>
+                </li>
+
+
+                 <li class="slide @(Url.IsMenuActive("Home" ,"Index" , "") ? "active" : "")">
+                    <a class="side-menu__item has-link @(Url.IsMenuActive("Home" ,"Index" , "") ? "active" : "")"
+                       asp-controller="Home"
+                       asp-action="Index"
+                       asp-area="">
+                        <i class="side-menu__icon fe fe-home"></i>
+                        <span class="side-menu__label">Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="slide @(Url.IsMenuActive("UserManager" ,"GetAllUsers" , "Management") ? "active" : "")">
+                    <a class="side-menu__item has-link @(Url.IsMenuActive("UserManager" ,"GetAllUsers" , "Management") ? "active" : "")"
+                       asp-controller="UserManager"
+                       asp-action="GetAllUsers"
+                       asp-area="Management"
+                    >
+                        <i class="side-menu__icon fe fe-home"></i>
+                        <span class="side-menu__label">User Manager</span>
+                    </a>
+                </li>
+
+                @*  <li class="slide @(Url.IsMenuActive("Auth" ,"Login" , "Manager") ? "active" : "")">
+                    <a class="side-menu__item has-link @(Url.IsMenuActive("Auth" ,"Login" , "Manager") ? "active" : "")"
+                       asp-controller="Auth"
+                       asp-action="Login">
+                        <i class="side-menu__icon fe fe-home"></i>
+                        <span class="side-menu__label">Login</span>
+                    </a>
+                </li> *@
+
+
+
+                @*
+                <li class="slide">
+                    <a class="side-menu__item has-link" data-bs-toggle="slide" href="index.html">
+                    <i class="side-menu__icon fe fe-home"></i><span class="side-menu__label">Dashboard</span>
+                    </a>
+                </li>
+                *@
+
+
+                @foreach (var menuItem in Model.Where(m => m.ParentId == null).OrderBy(m => m.DisplayOrder))
+                {
+                    var isMenuActive = Url.IsMenuActive(menuItem.ControllerName, menuItem.ActionName);
+                    var hasActiveSubMenu = menuItem.SubMenus?.Any(subMenu =>
+                    Url.IsMenuActive(subMenu.ControllerName, subMenu.ActionName) ||
+                    subMenu.SubMenus?.Any(subSubMenu => Url.IsMenuActive(subSubMenu.ControllerName, subSubMenu.ActionName)) == true
+                    ) ?? false;
+
+                    if (menuItem.SubMenus?.Any() == true)
+                    {
+                        <li class="slide @(isMenuActive || hasActiveSubMenu ? "is-expanded" : "")">
+                            <a class="side-menu__item @(isMenuActive ? "active" : "")" data-bs-toggle="slide" href="javascript:void(0)">
+                                <i class="side-menu__icon @menuItem.Icon"></i>
+                                <span class="side-menu__label">@menuItem.Name</span>
+                                <i class="angle fe fe-chevron-right"></i>
+                            </a>
+                            <ul class="slide-menu @(isMenuActive || hasActiveSubMenu ? "show" : "")">
+                                @foreach (var subMenuItem in menuItem.SubMenus.OrderBy(m => m.DisplayOrder))
+                                {
+                                    var isSubMenuActive = Url.IsMenuActive(subMenuItem.ControllerName, subMenuItem.ActionName);
+                                    var hasActiveSubSubMenu = subMenuItem.SubMenus?.Any(subSubMenu =>
+                                    Url.IsMenuActive(subSubMenu.ControllerName, subSubMenu.ActionName)
+                                    ) ?? false;
+
+                                    if (subMenuItem.SubMenus?.Any() == true)
+                                    {
+                                        <li class="sub-slide @(isSubMenuActive || hasActiveSubMenu ? "active" : "") @(hasActiveSubSubMenu ? "is-expanded" : "")">
+                                            <a class="sub-side-menu__item @(isSubMenuActive ? "active" : "")" data-bs-toggle="sub-slide" href="javascript:void(0)">
+                                                <span class="sub-side-menu__label">@subMenuItem.Name</span>
+                                                <i class="sub-angle fe fe-chevron-right"></i>
+                                            </a>
+                                            <ul class="sub-slide-menu @(isSubMenuActive || hasActiveSubSubMenu ? "show" : "")">
+                                                @foreach (var subSubMenuItem in subMenuItem.SubMenus.OrderBy(m => m.DisplayOrder))
+                                                {
+                                                    <li class="@(Url.IsMenuActive(subSubMenuItem.ControllerName, subSubMenuItem.ActionName) ? "active" : "")">
+                                                        <a href="@Url.Action(subSubMenuItem.ActionName, subSubMenuItem.ControllerName, new { area = subSubMenuItem.Area })" class="sub-slide-item @(Url.IsMenuActive(subSubMenuItem.ControllerName, subSubMenuItem.ActionName) ? "active" : "")">
+                                                            @subSubMenuItem.Name
+                                                        </a>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="@(Url.IsMenuActive(subMenuItem.ControllerName, subMenuItem.ActionName) ? "active" : "")">
+                                            <a class="slide-item @(Url.IsMenuActive(subMenuItem.ControllerName, subMenuItem.ActionName) ? "active" : "")"
+                                               asp-controller="@subMenuItem.ControllerName"
+                                               asp-action="@subMenuItem.ActionName"
+                                               asp-area="@subMenuItem.Area">
+                                                @subMenuItem.Name
+                                            </a>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="slide @(isMenuActive ? "active" : "")">
+                            <a class="side-menu__item has-link @(isMenuActive ? "active" : "")"
+                               asp-controller="@menuItem.ControllerName"
+                               asp-action="@menuItem.ActionName"
+                               asp-area="@menuItem.Area">
+                                <i class="side-menu__icon @menuItem.Icon"></i>
+                                <span class="side-menu__label">@menuItem.Name</span>
+                            </a>
+                        </li>
+                    }
+                }
+
+
+            </ul>
+
+            <div class="slide-right" id="slide-right">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M10.707 17.707L16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z" />
+                </svg>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>

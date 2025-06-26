@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CAF.Application.Abstractions.Services.Authentication;
-using CAF.Application.Models;
+﻿using CAF.Application.Abstractions.Services.Authentication;
 using CAF.Application.Models.Authentication.DTOs;
+using CAF.Application.Models.Common;
 using CAF.Domain.Entities.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -21,12 +16,13 @@ public class RoleService : IRoleService
         _roleManager = roleManager;
     }
 
-    public async Task<bool> CreateRole(string name, string description)
+    public async Task<bool> CreateRoleAsync(string name, string description)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("Role name cannot be empty.", nameof(name));
         AppRole role = new AppRole
         {
+            Id = Guid.NewGuid().ToString(),
             Name = name,
             Description = description
         };
@@ -71,7 +67,7 @@ public class RoleService : IRoleService
         return (role.Id, role.Name);
     }
 
-    public async Task<bool> UpdateRole(string id, string name)
+    public async Task<bool> UpdateRole(string id, string name, string description)
     {
         if (string.IsNullOrWhiteSpace(id))
             throw new ArgumentException("Role ID cannot be empty.", nameof(id));
@@ -81,6 +77,7 @@ public class RoleService : IRoleService
         if (role == null)
             throw new KeyNotFoundException($"Role with ID {id} not found.");
         role.Name = name;
+        role.Description = description ?? role.Description;
         IdentityResult result = await _roleManager.UpdateAsync(role);
         return result.Succeeded;
     }

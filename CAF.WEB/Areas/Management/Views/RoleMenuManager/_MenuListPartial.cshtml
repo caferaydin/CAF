@@ -1,0 +1,25 @@
+﻿@using CAF.Application.Models.Permission.VM
+@model List<NavigationMenuViewModel>
+
+@foreach (var menu in Model)
+{
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="menu_@menu.Id" name="MenuIds" value="@menu.Id" @(menu.Permitted ? "checked" : "")>
+        <label class="form-check-label" for="menu_@menu.Id">@menu.Name</label>
+    </div>
+
+    @if (menu.SubMenus != null && menu.SubMenus.Any())
+    {
+        <ul>
+            @foreach (var subMenu in menu.SubMenus)
+            {
+                <li>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="menu_@subMenu.Id" name="MenuIds" value="@subMenu.Id" @(subMenu.Permitted ? "checked" : "")>
+                        <label class="form-check-label" for="menu_@subMenu.Id">@subMenu.Name</label>
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+}

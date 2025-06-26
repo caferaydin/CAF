@@ -1,0 +1,314 @@
+﻿@using CAF.Application.Models.Permission.DTOs
+@using CAF.Domain.Entities.Permission
+@using Newtonsoft.Json
+@{
+    
+    ViewData["Title"] = "Menu Yönetimi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    var errors = TempData["Errors"] != null
+                ? JsonConvert.DeserializeObject<Dictionary<string, string[]>>(TempData["Errors"].ToString())
+                : null;
+
+}
+
+@model IEnumerable<Menu>
+
+<div class="main-container container-fluid">
+
+
+    <div class="page-header">
+        <h1 class="page-title">@ViewBag.Title</h1>
+        <div>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+
+                <li class="breadcrumb-item active" aria-current="page">@ViewBag.Title</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row row-sm">
+        <div class="card">
+            <div class="table-responsive mt-3">
+
+
+                <a id="table2-new-row-button" data-bs-toggle="modal" data-bs-target="#addMenu" class="btn btn-outline-success mb-4" style="">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    Menu Ekle
+                </a>
+
+                <table class="table table-bordered text-nowrap border-bottom mt-3" @* id="DataTable" *@>
+                    <thead>
+                        <tr>
+                            <th class="wd-15p border-bottom-0">Üst Menu</th>
+                            <th class="wd-15p border-bottom-0">Menu</th>
+                            <th class="wd-15p border-bottom-0">Controller Name</th>
+                            <th class="wd-15p border-bottom-0">Action Name</th>
+                            <th class="wd-15p border-bottom-0">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.OrderByDescending(x => x.ControllerName))
+                        {
+                            <tr>
+                                <td>
+                                    @if (item.ParentId != null)
+                                    {
+                                        @item.Parent.Name
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-primary"></span>
+                                    }
+
+                                </td>
+                                <td>@item.Name</td>
+                                <td>@item.ControllerName</td>
+                                <td>@item.ActionName</td>
+                                <td>
+                                    <!-- Detail Modal Trigger -->
+                                    <a class="btn btn-info btn-sm" data-bs-target="#detailMenu-@item.Id" data-bs-toggle="modal">
+                                        <span class="fe fe-eye"></span>
+                                    </a>
+
+                                    <!-- Edit Modal Trigger -->
+                                    <a class="btn btn-warning btn-sm" data-bs-target="#editlMenu-@item.Id" data-bs-toggle="modal">
+                                        <span class="fe fe-edit"></span>
+                                    </a>
+
+                                    <!-- Delete Modal Trigger -->
+                                    <a class="btn btn-danger btn-sm" data-bs-target="#deleteMenu-@item.Id" data-bs-toggle="modal">
+                                        <span class="fe fe-trash-2"></span>
+                                    </a>
+
+                                    <!-- Detail Modal  -->
+                                    <div class="modal fade" id="detailMenu-@item.Id" tabindex="-1" aria-labelledby="detailModalLabel-@item.Id" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="detailModalLabel-@item.Id">Sözleşme Tipi Detayı</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    <select class="form-control select2-show-search form-select"
+                                                            data-placeholder="Üst Menu" id="ParentId" name="ParentId">
+                                                        <option value="@item.ParentId" disabled> @item.Parent?.Name </option>
+
+                                                    </select>
+
+                                                    <div class="mb-3">
+
+                                                        <label class="form-label">Menu</label>
+                                                        <input type="text" class="form-control" name="Name" id="Name" value="@item.Name" disabled>
+
+                                                    </div>
+                                                    <div class="mb-3">
+
+                                                        <label class="form-label">Controller Name</label>
+                                                        <input type="text" class="form-control" name="ControllerName" id="ControllerName" value="@item.ControllerName" disabled>
+                                                    </div>
+
+                                                    <div class="mb-3">
+
+                                                        <label class="form-label">Action Name</label>
+                                                        <input type="text" class="form-control" name="ActionName" id="Name" value="@item.ActionName" disabled>
+                                                    </div>
+
+
+                                                    <div class="mb-3">
+
+                                                        <label class="form-label">Action Name</label>
+                                                        <input type="text" class="form-control" name="ActionName" id="Name" value="@item.ActionName" disabled>
+                                                    </div>
+
+
+                                                    <div class="mb-3">
+
+                                                        <label class="form-label">DisplayOrder</label>
+                                                        <input type="number" class="form-control" name="DisplayOrder" id="Name" value="@item.DisplayOrder" disabled>
+                                                    </div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Edit Modal -->
+                                    <div class="modal fade" id="editlMenu-@item.Id" tabindex="-1" aria-labelledby="detailModalLabel-@item.Id" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="detailModalLabel-@item.Id">Sözleşme Tipi Detayı</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form asp-action="UpdateMenu" method="post">
+
+                                                        <input type="hidden" class="form-control" value="@item.Id" id="Id" name="Id">
+
+
+
+                                                        <select class="form-control select2-show-search form-select @(errors != null && errors.ContainsKey("ParentId") ? "is-invalid" : "")"
+                                                                data-placeholder="Üst Menu" id="ParentId" name="ParentId">
+                                                            <option value="@item.ParentId"> @item.Parent?.Name </option>
+                                                            @foreach (var navsing in Model)
+                                                            {
+                                                                <option value="@navsing.Id">@navsing.Name</option>
+                                                            }
+                                                        </select>
+
+                                                        <div class="mb-3">
+
+                                                            <label class="form-label">Menu</label>
+                                                            <input type="text" class="form-control" name="Name" id="Name" value="@item.Name">
+
+                                                        </div>
+                                                        <div class="mb-3">
+
+                                                            <label class="form-label">Controller Name</label>
+                                                            <input type="text" class="form-control" name="ControllerName" id="ControllerName" value="@item.ControllerName">
+                                                        </div>
+
+                                                        <div class="mb-3">
+
+                                                            <label class="form-label">Action Name</label>
+                                                            <input type="text" class="form-control" name="ActionName" id="Name" value="@item.ActionName">
+                                                        </div>
+
+
+                                                        <div class="mb-3">
+
+                                                            <label class="form-label">Action Name</label>
+                                                            <input type="text" class="form-control" name="ActionName" id="Name" value="@item.ActionName">
+                                                        </div>
+
+
+                                                        <div class="mb-3">
+
+                                                            <label class="form-label">DisplayOrder</label>
+                                                            <input type="number" class="form-control" name="DisplayOrder" id="Name" value="@item.DisplayOrder">
+                                                        </div>
+
+
+
+                                                        <button type="submit" class="btn btn-success" style="float:right;">Güncelle</button>
+
+                                                    </form>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Delete Modal -->
+                                    <div class="modal fade" id="deleteMenu-@item.Id" tabindex="-1" aria-labelledby="deleteMenuLabel-@item.Id" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered text-center">
+                                            <div class="modal-content tx-size-sm">
+                                                <div class="modal-body text-center p-4 pb-5">
+                                                    <button aria-label="Close" class="btn-close position-absolute" data-bs-dismiss="modal">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    <i class="icon icon-close fs-70 text-danger lh-1 my-5 d-inline-block"></i>
+                                                    <h4 class="text-danger">
+                                                        <b>@item.Name Silinecektir.</b>
+                                                    </h4>
+                                                    <form asp-action="DeleteMenu" method="post">
+                                                        <input type="hidden" name="Id" value="@item.Id" />
+                                                        <p class="mg-b-20 mg-x-20">Silmek istediğinizden emin misiniz?</p>
+                                                        <button type="submit" class="btn btn-danger pd-x-25">Sil</button>
+                                                        <button aria-label="Close" class="btn btn-success pd-x-25" data-bs-dismiss="modal">İptal Et</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Add Menu Modal -->
+
+<div class="modal fade" id="addMenu" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Menu Ekle</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <form id="addMenuForm" asp-action="AddMenu" method="post">
+
+                        <select class="form-control select2-show-search form-select @(errors != null && errors.ContainsKey("ParentId") ? "is-invalid" : "")"
+                                data-placeholder="Üst Menu" id="ParentId" name="ParentId">
+                            <option></option>
+                            @foreach (var menu in Model)
+                            {
+                                <option value="@menu.Id">@menu.Name</option>
+                            }
+                        </select>
+
+                        <div class="mb-3">
+                            <label for="Name" class="form-label"> Menu </label>
+                            <input type="text" class="form-control" id="Name" name="Name" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="Name" class="form-label"> Controller Name </label>
+                            <input type="text" class="form-control" id="ControllerName" name="ControllerName">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="Name" class="form-label"> Action Name </label>
+                            <input type="text" class="form-control" id="ActionName" name="ActionName">
+                        </div>
+
+                        @* <div class="mb-3">
+                        <label for="Name" class="form-label"> Area Name </label>
+                        <input type="text" class="form-control" id="AreaName" name="AreaName" required>
+                        </div> *@
+
+                        <div class="mb-3">
+                            <label for="Name" class="form-label"> Sıralama </label>
+                            <input type="number" class="form-control" id="DisplayOrder" name="DisplayOrder" required>
+                        </div>
+
+                        <hr />
+                        <button type="submit" class="btn btn-success" style="float:right;">Kaydet</button>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+@section Scripts {
+    <script src="~/CustomScript/DataTable/jquery.dataTables.min.js"></script>
+    <script src="~/CustomScript/CustomTable/dataTableInitializer.js"></script>
+
+}
+

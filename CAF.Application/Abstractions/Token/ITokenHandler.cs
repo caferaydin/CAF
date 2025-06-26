@@ -6,5 +6,5 @@ public interface ITokenHandler
 {
     Task<Models.DTOs.Token> CreateAccessToken(int second, AppUser appUser);
     string CreateRefreshToken();
-    Task<Models.DTOs.Token> GetUserFromTokenAsync(string token);
+    bool ValidateToken(string token);
 }

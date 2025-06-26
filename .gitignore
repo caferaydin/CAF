@@ -363,3 +363,6 @@ MigrationBackup/
 FodyWeavers.xsd
 /CAF.WEB/appsettings.Production.json
 /.gitignore
+/CAF.WEB/appsettings.Development.json
+/CAF.WEB/appsettings.json
+/CAF.WEB/appsettings.json

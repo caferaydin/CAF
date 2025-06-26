@@ -2,6 +2,7 @@
 
 public abstract class BaseEntity
 {
+    public int Id { get; set; }
     public DateTime CreatedDate { get; set; }
     public string? CreatedBy { get; set; }
 
@@ -13,7 +14,3 @@ public abstract class BaseEntity
     public string? DeletedBy { get; set; }
 }
 
-public class BaseEntity<TKey> : BaseEntity
-{
-    public TKey Id { get; set; }
-}

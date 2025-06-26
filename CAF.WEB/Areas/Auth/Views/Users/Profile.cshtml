@@ -1,0 +1,93 @@
+﻿@using CAF.Domain.Entities.Authentication
+
+
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model AppUser
+
+<div class="main-container container-fluid">
+
+    <div class="page-header">
+        <h1 class="page-title">Profile</h1>
+        <div>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Profile</li>
+            </ol>
+        </div>
+    </div>
+
+
+    <!-- ROW-1 OPEN -->
+    <div class="row" id="user-profile">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="wideget-user mb-2">
+                        <div class="row  justify-content-center">
+                            <div class="col-lg-12 col-md-12">
+
+                                <div class="row">
+                                    <div class="panel profile-cover">
+
+                                        <div class="profile-cover__action bg-img"></div>
+                                        <div class="profile-cover__img">
+                                            <div class="profile-img-content text-dark text-start">
+                                                <div class="text-dark">
+                                                    <h3 class="h3 mb-2"> @Model.NameSurname </h3>
+                                                    <h5 class="text-muted"> @Model.UserName </h5>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="px-0 px-sm-4">
+
+                                        <div class="social social-profile-buttons mt-5 float-end">
+                                            <div class="mt-3">
+                                                <a class="social-icon text-primary" href="https://www.facebook.com/" target="_blank"><i class="fa fa-facebook"></i></a>
+                                                <a class="social-icon text-primary" href="https://twitter.com/" target="_blank"><i class="fa fa-twitter"></i></a>
+                                                <a class="social-icon text-primary" href="https://www.youtube.com/" target="_blank"><i class="fa fa-youtube"></i></a>
+                                                <a class="social-icon text-primary" href="javascript:void(0)"><i class="fa fa-rss"></i></a>
+                                                <a class="social-icon text-primary" href="https://www.linkedin.com/" target="_blank"><i class="fa fa-linkedin"></i></a>
+                                                <a class="social-icon text-primary" href="https://myaccount.google.com/" target="_blank"><i class="fa fa-google-plus"></i></a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <!-- COL-END -->
+    </div>
+    <!-- ROW-1 CLOSED -->
+    <!-- ROW-2 OPEN -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Profile Information</h3>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+

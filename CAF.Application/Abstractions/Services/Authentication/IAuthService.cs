@@ -4,6 +4,6 @@ namespace CAF.Application.Abstractions.Services.Authentication;
 
 public interface IAuthService : IInternalAuthentication
 {
-    Task PasswordResetAsync(PasswordResetRequest request);
+    Task<bool> PasswordResetAsync(PasswordResetRequest request);
     Task<bool> VerifyResetTokenAsync(ResetTokenRequest request);
 }

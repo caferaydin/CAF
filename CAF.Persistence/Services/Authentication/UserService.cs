@@ -1,9 +1,10 @@
 ﻿using CAF.Application.Abstractions.Services.Authentication;
 using CAF.Application.Extensions.Authentication;
 using CAF.Application.Helpers;
-using CAF.Application.Models;
 using CAF.Application.Models.Authentication.Request;
+using CAF.Application.Models.Authentication.Requests;
 using CAF.Application.Models.Authentication.Responses;
+using CAF.Application.Models.Common;
 using CAF.Domain.Entities.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -74,13 +75,13 @@ public class UserService : IUserService
         else
             throw new NotFoundUserException();
     }
-    public async Task UpdatePasswordAsync(string userId, string resetToken, string newPassword)
+    public async Task UpdatePasswordAsync(UpdatePasswordRequest request)
     {
-        AppUser user = await _userManager.FindByIdAsync(userId);
+        AppUser user = await _userManager.FindByIdAsync(request.UserId);
         if (user != null)
         {
-            resetToken = resetToken.UrlDecode();
-            IdentityResult result = await _userManager.ResetPasswordAsync(user, resetToken, newPassword);
+            request.ResetToken = request.ResetToken.UrlDecode();
+            IdentityResult result = await _userManager.ResetPasswordAsync(user, request.ResetToken, request.NewPassword);
             if (result.Succeeded)
                 await _userManager.UpdateSecurityStampAsync(user);
             else

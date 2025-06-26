@@ -1,0 +1,83 @@
+﻿@using CAF.Application.Models.Authentication.Request
+@model LoginRequest
+
+<div class="page">
+    <div class="">
+        <div class="col col-login mx-auto mt-7">
+            <div class="text-center">
+                <a asp-controller="Home" asp-action="Index"><img src="~/assets/images/brand/logo-white.png" class="header-brand-img" alt=""></a>
+            </div>
+        </div>
+
+        <div class="container-login100">
+            <div class="wrap-login100 p-6">
+                <!-- Formu Identity yapısına uygun hale getirin -->
+                <form class="login100-form validate-form" asp-action="Login" asp-controller="Auth" method="post">
+                    <span class="login100-form-title pb-5">
+                        Giriş Yap
+                    </span>
+
+                    <!-- Validation Summary -->
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                    <div class="tab-pane active">
+                        <!-- Email Giriş -->
+                        <div class="wrap-input100 validate-input input-group">
+                            <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                <i class="zmdi zmdi-email text-muted" aria-hidden="true"></i>
+                            </a>
+                            <input class="input100 border-start-0 form-control ms-0" asp-for="UsernameOrEmailOrPhone" placeholder="Email">
+                        </div>
+                        <br />
+                        <!-- Email Hata Mesajı -->
+                        <span asp-validation-for="UsernameOrEmailOrPhone" class="text-danger"></span>
+
+                        <!-- Şifre Giriş -->
+                        <div class="wrap-input100 validate-input input-group" id="Password-toggle">
+                            <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                <i class="zmdi zmdi-eye text-muted" aria-hidden="true"></i>
+                            </a>
+                            <input class="input100 border-start-0 form-control ms-0" asp-for="Password" placeholder="Password" type="password">
+                        </div>
+                        <br />
+                        <!-- Şifre Hata Mesajı -->
+                        <span asp-validation-for="Password" class="text-danger"></span>
+
+                        <div class="text-end pt-4">
+                            <p class="mb-0"><a href="#" class="text-primary ms-1">Şifremi Unuttum?</a></p>
+                        </div>
+
+                        <div class="container-login100-form-btn">
+                            <button type="submit" class="login100-form-btn btn-primary">
+                                Giriş Yap
+                            </button>
+                        </div>
+
+                        <div class="text-center pt-3">
+                            <p class="text-dark mb-0">Üye değil misiniz? <a asp-controller="Users" asp-action="Register" class="text-primary ms-1">Üye Ol</a></p>
+                        </div>
+
+                        @*   <label class="login-social-icon"><span>Login with Social</span></label>
+                        <div class="d-flex justify-content-center">
+                        <a href="javascript:void(0)">
+                        <div class="social-login me-4 text-center">
+                        <i class="fa fa-google"></i>
+                        </div>
+                        </a>
+                        <a href="javascript:void(0)">
+                        <div class="social-login me-4 text-center">
+                        <i class="fa fa-facebook"></i>
+                        </div>
+                        </a>
+                        <a href="javascript:void(0)">
+                        <div class="social-login text-center">
+                        <i class="fa fa-twitter"></i>
+                        </div>
+                        </a>
+                        </div> *@
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

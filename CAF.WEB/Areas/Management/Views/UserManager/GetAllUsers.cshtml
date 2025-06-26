@@ -1,0 +1,212 @@
+﻿@using CAF.Application.Models.Authentication.Responses
+@using CAF.Application.Models.Common
+@{
+    ViewData["Title"] = "Kullanıcı  Listesi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+@model Pagination<GetUserResponse>
+
+<div class="main-container container-fluid">
+
+
+    <div class="page-header">
+        <h1 class="page-title">@ViewBag.Title</h1>
+        <div>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+
+                <li class="breadcrumb-item active" aria-current="page">@ViewBag.Title</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row row-sm">
+        <div class="card">
+            <div class="table-responsive mt-3">
+
+
+                <a id="table2-new-row-button" data-bs-toggle="modal" data-bs-target="#adduser" class="btn btn-outline-success mb-4" style="">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    Kullanıcı Ekle
+                </a>
+
+                <table class="table table-bordered text-nowrap border-bottom mt-3" id="DataTable">
+                    <thead>
+                        <tr>
+                            <th class="wd-15p border-bottom-0">Durum</th>
+                            <th class="wd-15p border-bottom-0">Açıklaması</th>
+                            <th class="wd-15p border-bottom-0">Aksiyon</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Datas)
+                        {
+                            <tr>
+                                <td>@item.UserName</td>
+                                <td>@item.NameSurname</td>
+                                <td>
+                                    <!-- Detail Modal Trigger -->
+                                    <a class="btn btn-info btn-sm" data-bs-target="#detailuser-@item.Id" data-bs-toggle="modal">
+                                        <span class="fe fe-eye"></span>
+                                    </a>
+
+                                    <!-- Edit Modal Trigger -->
+                                    <a class="btn btn-warning btn-sm" data-bs-target="#editluser-@item.Id" data-bs-toggle="modal">
+                                        <span class="fe fe-edit"></span>
+                                    </a>
+
+                                    <!-- Delete Modal Trigger -->
+                                    <a class="btn btn-danger btn-sm" data-bs-target="#deleteuser-@item.Id" data-bs-toggle="modal">
+                                        <span class="fe fe-trash-2"></span>
+                                    </a>
+
+                                    <!-- Detail Modal  -->
+                                    <div class="modal fade" id="detailuser-@item.Id" tabindex="-1" aria-labelledby="detailModalLabel-@item.Id" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="detailModalLabel-@item.Id">Sözleşme Tanımı Detayı</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Tip Adı</label>
+                                                        <input type="text" class="form-control" value="@item.UserName" disabled>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Açıklama</label>
+                                                        <textarea class="form-control" name="description" disabled>
+                                                            @item.NameSurname
+                                                                                       </textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Edit Modal -->
+
+                                    <div class="modal fade" id="editluser-@item.Id" tabindex="-1" aria-labelledby="detailModalLabel-@item.Id" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="detailModalLabel-@item.Id">Sözleşme Tanımı Detayı</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form method="post">
+
+                                                        <input type="hidden" class="form-control" value="@item.Id" id="Id" name="Id">
+                                                        <div class="mb-3">
+
+                                                            <label class="form-label">Tip Adı</label>
+                                                            <input type="text" class="form-control" name="Name" id="Name" value="@item.UserName">
+
+                                                        </div>
+                                                        <div class="mb-3">
+
+                                                            <label class="form-label">Açıklama</label>
+
+                                                            <textarea class="form-control" name="description" id="Id">
+                                                                @item.NameSurname
+                                                                        </textarea>
+                                                        </div>
+
+                                                        <button type="submit" class="btn btn-success" style="float:right;">Güncelle</button>
+
+                                                    </form>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Delete Modal -->
+                                    <div class="modal fade" id="deleteuser-@item.Id" tabindex="-1" aria-labelledby="deleteuserLabel-@item.Id" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered text-center">
+                                            <div class="modal-content tx-size-sm">
+                                                <div class="modal-body text-center p-4 pb-5">
+                                                    <button aria-label="Close" class="btn-close position-absolute" data-bs-dismiss="modal">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    <i class="icon icon-close fs-70 text-danger lh-1 my-5 d-inline-block"></i>
+                                                    <h4 class="text-danger">
+                                                        <b>@item.NameSurname Silinecektir.</b>
+                                                    </h4>
+                                                    <form method="post">
+                                                        <input type="hidden" name="Id" value="@item.Id" />
+                                                        <p class="mg-b-20 mg-x-20">Silmek istediğinizden emin misiniz?</p>
+                                                        <button type="submit" class="btn btn-danger pd-x-25">Sil</button>
+                                                        <button aria-label="Close" class="btn btn-success pd-x-25" data-bs-dismiss="modal">İptal Et</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Add user Modal -->
+
+<div class="modal fade" id="adduser" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Sözleşme Tanımı Ekle </h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <form id="addUserForm" method="post">
+
+                        <div class="mb-3">
+                            <label for="Name" class="form-label">Kullanıcı Adı</label>
+                            <input type="text" class="form-control" id="Name" name="Name" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Açıklama</label>
+                            <textarea class="form-control" name="Description" id="Description">
+                            </textarea>
+                        </div>
+
+                        <hr />
+                        <button type="submit" class="btn btn-success" style="float:right;">Kaydet</button>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+@section Scripts {
+    <script src="~/CustomScript/DataTable/jquery.dataTables.min.js"></script>
+    <script src="~/CustomScript/CustomTable/dataTableInitializer.js"></script>
+
+
+}
+

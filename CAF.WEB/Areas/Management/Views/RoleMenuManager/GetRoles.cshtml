@@ -1,0 +1,233 @@
+﻿@using CAF.Application.Models.Authentication.DTOs
+@using CAF.Application.Models.Common
+
+@{
+    ViewData["Title"] = "Role Management";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model Pagination<RoleDto>
+
+
+<div class="main-container container-fluid">
+    <div class="page-header">
+        <h1 class="page-title">Roller</h1>
+        <div>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row row-sm">
+        <div class="card">
+            <div class="table-responsive mt-3">
+                <a id="table2-new-row-button" data-bs-toggle="modal" data-bs-target="#addRole" class="btn btn-outline-success mb-4">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Rol Ekle
+                </a>
+
+                <table class="table table-bordered text-nowrap border-bottom mt-3" id="DataTable">
+                    <thead>
+                        <tr>
+                            <th class="wd-15p border-bottom-0">Rol Adı</th>
+                            <th class="wd-15p border-bottom-0">Açıklama</th>
+                            <th class="wd-15p border-bottom-0">Aksiyon</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Datas != null && Model.Datas.Any())
+                        {
+                            @foreach (var item in Model.Datas)
+                            {
+                                <tr>
+                                    <td>@item.Name</td>
+                                    <td>@item.Description</td>
+                                    <td>
+                                        <!-- Detail Modal Trigger -->
+                                        <a class="btn btn-info btn-sm" data-bs-target="#detailRole-@item.Id" data-bs-toggle="modal">
+                                            <span class="fe fe-eye"></span>
+                                        </a>
+
+                                        <!-- Edit Modal Trigger -->
+                                        <a class="btn btn-warning btn-sm" data-bs-target="#editRole-@item.Id" data-bs-toggle="modal">
+                                            <span class="fe fe-edit"></span>
+                                        </a>
+
+                                        <!-- Delete Modal Trigger -->
+                                        <a class="btn btn-danger btn-sm" data-bs-target="#deleteRole-@item.Id" data-bs-toggle="modal">
+                                            <span class="fe fe-trash-2"></span>
+                                        </a>
+
+                                        <!-- Detail Modal -->
+                                        <div class="modal fade" id="detailRole-@item.Id" tabindex="-1" aria-labelledby="detailModalLabel-@item.Id" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="detailModalLabel-@item.Id">Rol Detayı</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Rol Adı</label>
+                                                            <input type="text" class="form-control" value="@item.Name" disabled>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Açıklama</label>
+                                                            <textarea class="form-control" disabled>@item.Description</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Edit Modal -->
+                                        <div class="modal fade" id="editRole-@item.Id" tabindex="-1" aria-labelledby="editRoleLabel-@item.Id" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="editRoleLabel-@item.Id">Rol Düzenle</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form asp-area="Management" asp-controller="RoleMenuManager" asp-action="UpdateRole" method="post">
+                                                            <input type="hidden" class="form-control" value="@item.Id" name="Id">
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Rol Adı</label>
+                                                                <input type="text" class="form-control" name="Name" value="@item.Name">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Açıklama</label>
+                                                                <textarea class="form-control" name="Description">@item.Description</textarea>
+                                                            </div>
+                                                            <button type="submit" class="btn btn-success">Güncelle</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Delete Modal -->
+                                        <div class="modal fade" id="deleteRole-@item.Id" tabindex="-1" aria-labelledby="deleteRoleLabel-@item.Id" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered text-center">
+                                                <div class="modal-content tx-size-sm">
+                                                    <div class="modal-body text-center p-4 pb-5">
+                                                        <button aria-label="Close" class="btn-close position-absolute" data-bs-dismiss="modal">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                        <i class="icon icon-close fs-70 text-danger lh-1 my-5 d-inline-block"></i>
+                                                        <h4 class="text-danger">
+                                                            <b>@item.Name Silinecektir.</b>
+                                                        </h4>
+                                                        <form asp-area="Management" asp-action="DeleteRole" asp-controller="RoleMenuManager" method="post">
+                                                            <input type="hidden" name="Id" value="@item.Id" />
+                                                            <p class="mg-b-20 mg-x-20">Silmek istediğinizden emin misiniz?</p>
+                                                            <button type="submit" class="btn btn-danger pd-x-25">Sil</button>
+                                                            <button aria-label="Close" class="btn btn-success pd-x-25" data-bs-dismiss="modal">İptal Et</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3" class="text-center">Kayıt bulunamadı</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <!-- Pagination -->
+                <div class="pagination-container mt-4">
+                    <ul class="pagination">
+                        @if (Model.CurrentPage > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="Roles" asp-action="Index" asp-route-pageNumber="@(Model.CurrentPage - 1)">Önceki</a>
+                            </li>
+                        }
+
+                        @for (int i = 1; i <= Model.TotalPages; i++)
+                        {
+                            <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                                <a class="page-link" asp-controller="Roles" asp-action="Index" asp-route-pageNumber="@i">@i</a>
+                            </li>
+                        }
+
+                        @if (Model.CurrentPage < Model.TotalPages)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="Roles" asp-action="Index" asp-route-pageNumber="@(Model.CurrentPage + 1)">Sonraki</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+                <!-- Page Size Selector -->
+                <div class="mt-4">
+                    <label for="pageSize">Sayfa Başına Kayıt:</label>
+                    <select id="pageSize" class="form-select" aria-label="Page Size Selector" onchange="window.location.href='@Url.Action("Index", new { pageSize = "" })' + this.value">
+                        @foreach (var pageSize in Model.AvailablePageSizes)
+                        {
+                            <option value="@pageSize" selected=@(pageSize == Model.PageSize ? "selected" : "")>@pageSize</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Add Role Modal -->
+<div class="modal fade" id="addRole" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Rol Ekle</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-area="Management" asp-action="CreateRole" asp-controller="RoleMenuManager" method="post">
+
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Rol Adı</label>
+                        <input type="text" class="form-control" id="name" name="Name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Açıklama</label>
+                        <textarea class="form-control" id="description" name="Description"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Ekle</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Sayfa boyutları seçici işlevi
+            $('#pageSize').change(function () {
+                var selectedSize = $(this).val();
+                var url = '@Url.Action("Index", new { page = 1, pageSize = "__PAGE_SIZE__" })';
+                url = url.replace("__PAGE_SIZE__", selectedSize);
+                window.location.href = url;
+            });
+        });
+    </script>
+}
+

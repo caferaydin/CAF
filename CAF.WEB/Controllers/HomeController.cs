@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using CAF.WEB.Models;
+using Kronos.StationModule.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CAF.WEB.Controllers
@@ -7,15 +8,26 @@ namespace CAF.WEB.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IStationService _stationService;
 
-        public HomeController(ILogger<HomeController> logger)
+
+        public HomeController(ILogger<HomeController> logger, IStationService stationService)
         {
             _logger = logger;
+            _stationService = stationService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var stations = await _stationService.GetStations();
+
+            FatihModel fatihModel = new FatihModel
+            {
+                Station = stations,
+                Machine = stations
+            };  
+
+            return View(fatihModel);
         }
 
         public IActionResult Privacy()

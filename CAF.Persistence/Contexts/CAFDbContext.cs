@@ -2,6 +2,8 @@
 using CAF.Application.Abstractions.Services.Session;
 using CAF.Domain.Entities.Authentication;
 using CAF.Domain.Entities.Common;
+using CAF.Domain.Entities.Permission;
+using Kronos.StationModule.Domain.Module;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,12 +21,21 @@ namespace CAF.Persistence.Contexts
         }
 
 
-        #region Methods
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
+        #region Table 
+        public DbSet<Menu> CAF_MENU { get; set; }
+        public DbSet<MenuRolePermission> CAF_PERMISSION { get; set; }
+        public DbSet<SyncedStation> KRONOS_STATION { get; set; }
+        #endregion
 
-            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+
+
+        #region Methods
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(CAFDbContext).Assembly);
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

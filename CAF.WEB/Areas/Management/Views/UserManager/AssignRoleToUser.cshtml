@@ -1,0 +1,80 @@
+﻿@using CAF.Application.Models.Authentication.VM
+
+
+@{
+    ViewData["Title"] = "Rol Atama";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+@model AssignRoleViewModel
+
+<div class="main-container container-fluid">
+    <div class="page-header">
+        <h1 class="page-title">Rol Atama</h1>
+        <div>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row row-sm">
+        <div class="card">
+            <div class="card-body">
+
+                <form asp-action="AssignRoleToUser" method="post">
+                    <div class="row">
+                        <!-- Kullanıcı Seçimi -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="user" class="form-label">Kullanıcı</label>
+                                <select id="user" name="UserId" class="form-select" required onchange="loadUserRoles(this.value)">
+                                    <option value="">Kullanıcı seçin</option>
+                                    @foreach (var user in Model.Users!)
+                                    {
+                                        <option value="@user.Id">@user.UserName</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        @*  <div class="col-md-6">
+                        <div class="mb-3">
+                        <label for="roles" class="form-label">Roller</label>
+                        <select id="roles" name="Roles" class="form-select" multiple required>
+                        @foreach (var role in Model.Roles!)
+                        {
+                        <option value="@role.Name">@role.Name</option>
+                        }
+                        </select>
+                        </div>
+                        </div> *@
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="roles" class="form-label">Roller</label>
+                                <div id="rolesContainer">
+                                    <!-- Dinamik olarak rolleri burada yükleyeceğiz -->
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Rol Ata</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    <script src="~/CustomScript/Management/UserRoleManagement.js"></script>
+
+}

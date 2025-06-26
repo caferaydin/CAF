@@ -1,8 +1,8 @@
 ﻿function loadUserRoles(userId) {
     if (userId) {
         $.when(
-            $.get(`/GetRolesToUser/${userId}`), // Kullanıcının atanmış rolleri
-            $.get('/GetAllRoles') // Tüm roller
+            $.get(`/Management/UserManager/GetRolesToUser/${userId}`), // Kullanıcının atanmış rolleri
+            $.get('/Management/UserManager/GetAllRoles') // Tüm roller
         ).done(function (userRolesResponse, allRolesResponse) {
             // Yanıtları kontrol et
             console.log('Kullanıcı Rolleri:', userRolesResponse[0]);

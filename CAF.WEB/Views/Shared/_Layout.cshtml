@@ -1,50 +1,109 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - CAF.WEB</title>
-    <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/CAF.WEB.styles.css" asp-append-version="true" />
+
+    @await Html.PartialAsync("~/Views/ManagerLayoutPartial/_HeadPartial.cshtml")
+
+    @await RenderSectionAsync("Style", required: false)
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CAF.WEB</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+<body class="app sidebar-mini ltr light-mode">
+
+    <div id="global-loader">
+        <img src="~/assets/images/loader.svg" class="loader-img" alt="Loader">
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - CAF.WEB - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+
+    <div class="page">
+
+        <div class="page-main">
+
+            @await Component.InvokeAsync("Header")
+
+
+            @await Component.InvokeAsync("NavigationMenu")
+
+
+            <div class="main-content app-content mt-0">
+                <div class="side-app">
+
+
+                    @*   <div id="emailConfirmationSection">
+                        <!-- Buton yeri -->
+                    </div> *@
+
+
+                    @RenderBody()
+                </div>
+            </div>
+
+
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    </div>
+
+
+    @await Html.PartialAsync("~/Views/ManagerLayoutPartial/_SideBarPartial.cshtml")
+
+    @* @await Html.PartialAsync("~/Views/Shared/ManagerLayoutPartial/_CountrySelectorPartial.cshtml") *@
+
+    @await Html.PartialAsync("~/Views/ManagerLayoutPartial/_FooterPartial.cshtml")
+
+    <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+
+
+    @await Html.PartialAsync("~/Views/ManagerLayoutPartial/_ScriptsPartial.cshtml")
+
+
+    @* Mail Doğrulama için *@
+    @* 
+    <script>
+    // Sayfa yüklendiğinde kullanıcının email durumu kontrol edilir
+    $(document).ready(function () {
+        checkEmailConfirmationStatus();
+    });
+
+    function checkEmailConfirmationStatus() {
+        $.ajax({
+                url: '/get-confirm-email',
+            type: 'GET',
+            success: function (response) {
+                if (response.emailConfirmed) {
+                    // Eğer e-posta onaylandıysa, butonu gizle
+                    $('#emailConfirmationSection').html('<span class="text-success">E-posta onaylandı.</span>');
+                } else {
+                    // E-posta onaylanmamışsa, butonu göster
+                    $('#emailConfirmationSection').html(`
+                        <button class="btn btn-primary" onclick="sendConfirmationEmail()">E-postayı Doğrula</button>
+                        <small id="emailMessage" class="text-muted"></small>
+                    `);
+                }
+            },
+            error: function () {
+                $('#emailConfirmationSection').html('<span class="text-danger">Bir hata oluştu.</span>');
+            }
+        });
+    }
+
+    function sendConfirmationEmail() {
+        $.ajax({
+                url: '/get-confirm-email',
+            type: 'GET',
+            success: function (response) {
+                if (response.success) {
+                    $('#emailMessage').text(response.message).removeClass('text-danger').addClass('text-success');
+                } else {
+                    $('#emailMessage').text(response.message).removeClass('text-success').addClass('text-danger');
+                }
+            },
+            error: function () {
+                $('#emailMessage').text('Bir hata oluştu.').removeClass('text-success').addClass('text-danger');
+            }
+        });
+    }
+</script>
+ *@
+    @* Mail Doğrulama için *@
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

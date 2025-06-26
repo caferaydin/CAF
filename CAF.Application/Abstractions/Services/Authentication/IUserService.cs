@@ -1,6 +1,7 @@
-﻿using CAF.Application.Models;
-using CAF.Application.Models.Authentication.Request;
+﻿using CAF.Application.Models.Authentication.Request;
+using CAF.Application.Models.Authentication.Requests;
 using CAF.Application.Models.Authentication.Responses;
+using CAF.Application.Models.Common;
 using CAF.Domain.Entities.Authentication;
 
 namespace CAF.Application.Abstractions.Services.Authentication;
@@ -9,7 +10,7 @@ public interface IUserService
 {
     Task<CreateUserResponse> CreateAsync(CreateUserRequest model);
     Task UpdateRefreshTokenAsync(string refreshToken, AppUser user, DateTime accessTokenDate, int addOnAccessTokenDate);
-    Task UpdatePasswordAsync(string userId, string resetToken, string newPassword);
+    Task UpdatePasswordAsync(UpdatePasswordRequest request);
     Task<Pagination<GetUserResponse>> GetAllUsersAsync(int pageIndex, int pageSize);
     int TotalUsersCount { get; }
     Task AssignRoleToUserAsnyc(string userId, string[] roles);
