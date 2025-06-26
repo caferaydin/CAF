@@ -365,3 +365,4 @@ FodyWeavers.xsd
 /.gitignore
 /CAF.WEB/appsettings.Development.json
 /CAF.WEB/appsettings.json
+/CAF.WEB/appsettings.*.json

@@ -21,7 +21,7 @@ public class StationBackgroundSyncJob : BackgroundService
         while (!stoppingToken.IsCancellationRequested)
         {
             using var scope = _serviceProvider.CreateScope();
-            var syncService = scope.ServiceProvider.GetRequiredService<IStationSyncService>();
+            var syncService = scope.ServiceProvider.GetRequiredService<StationSyncService>();
 
             try
             {
