@@ -1,0 +1,65 @@
+﻿@using Newtonsoft.Json
+
+
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Stations";
+
+	var errors = TempData["Errors"] != null
+				? JsonConvert.DeserializeObject<Dictionary<string, string[]>>(TempData["Errors"].ToString())
+				: null;
+
+}
+
+@section Style{
+	<link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/moment-2.29.4/dt-2.3.2/af-2.7.0/b-3.2.3/cr-2.1.1/cc-1.0.6/date-1.5.5/fc-5.0.4/fh-4.0.3/r-3.0.4/sc-2.4.3/sl-3.0.1/datatables.min.css" rel="stylesheet" />
+
+
+	<link href="~/CustomScript/DataTable/CustomTable.css" rel="stylesheet" />
+}
+
+
+<div class="page-header">
+	<h1 class="page-title">@ViewBag.Title</h1>
+	<div>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+			<li class="breadcrumb-item active" aria-current="page">@ViewBag.Title</li>
+		</ol>
+	</div>
+</div>
+
+
+
+<div class="row row-sm">
+	<div class="card">
+		<table id="stationsTable" class="table responsive nowrap table-striped text-md-nowrap mb-0" style="width: 100%">
+			<thead>
+				<tr>
+					<th></th>
+					<th>İstasyon</th>
+					<th>Kodu</th>
+					<th>Servis</th>
+					<th>Platform</th>
+					<th>Son Aktivite</th>
+					<th>İşlemler</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+
+	</div>
+</div>
+
+
+@section Scripts {
+	@* <script src="~/CustomScript/DataTable/jquery.dataTables.min.js"> </script> *@
+
+	<script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/moment-2.29.4/dt-2.3.2/af-2.7.0/b-3.2.3/cr-2.1.1/cc-1.0.6/date-1.5.5/fc-5.0.4/fh-4.0.3/r-3.0.4/sc-2.4.3/sb-1.8.2/datatables.min.js"></script>
+
+	<script src="~/CustomScript/CustomTable/datatable-helper.js"></script>
+	@* <script src="~/CustomScript/CustomTable/dataTableInitializer.js"></script> *@
+	<script src="~/CustomScript/Kronos/GetStations.js"></script>
+}
+
+

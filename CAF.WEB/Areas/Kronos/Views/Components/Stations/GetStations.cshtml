@@ -1,0 +1,102 @@
+﻿@using Newtonsoft.Json
+@using global::Kronos.StationModule.Domain.Module
+
+@{
+    var errors = TempData["Errors"] != null
+             ? JsonConvert.DeserializeObject<Dictionary<string, string[]>>(TempData["Errors"].ToString())
+             : null;
+}
+
+@model List<SyncedStation>
+
+<div class="main-container container-fluid">
+
+    <div class="page-header">
+        <h1 class="page-title">@ViewBag.Title</h1>
+        <div>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+
+                <li class="breadcrumb-item active" aria-current="page">@ViewBag.Title</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row row-sm">
+        <div class="card">
+            <div class="table-responsive mt-3">
+
+                <a href="#" class="btn btn-outline-success mb-4" data-bs-toggle="modal" data-bs-target="#addCompanyModal">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Şirket Ekle
+                </a>
+
+                <table class="table table-bordered text-nowrap border-bottom" id="DataTable">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="wd-15p border-bottom-0">İstasyon</th>
+                            <th class="wd-15p border-bottom-0">Kodu</th>
+                            <th class="wd-20p border-bottom-0">Servis</th>
+                            <th class="wd-15p border-bottom-0">Platform</th>
+                            <th class="wd-10p border-bottom-0">Son Aktivite</th>
+                            <th class="wd-25p border-bottom-0">Actions</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td></td>
+                                <td>@item.StationName</td>
+                                <td>@item.StationCode</td>
+                                <td>@item.ServiceTypes</td>
+                                <td>@item.Platform</td>
+                                <td>@item.LastSynced</td>
+                                <td>
+                                    @* <a class="btn btn-success btn-sm" asp-controller="Company" asp-action="Profil" asp-route-id="@item.Id"><span class="fe fe-eye"></span></a> *@
+                                    <a class="btn btn-success btn-sm"><span class="fe fe-eye"></span></a>
+                                    @* <a class="btn btn-warning btn-sm" asp-controller="Company" asp-action="Update" asp-route-id="@item.Id"><span class="fe fe-edit"></span></a> *@
+                                    <a class="btn btn-warning btn-sm"><span class="fe fe-edit"></span></a>
+
+                                    <a class="btn btn-danger btn-sm" data-bs-target="#deleteModal-@item.Id" data-bs-toggle="modal">
+                                        <span class="fe fe-trash-2"></span>
+                                    </a>
+
+                                    @* <div class="modal fade" id="deleteModal-@item.Id"> *@
+                                    <div class="modal fade" id="deleteModal-@item.Id">
+                                        <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                                            <div class="modal-content tx-size-sm">
+                                                <div class="modal-body text-center p-4 pb-5">
+                                                    <button aria-label="Close" class="btn-close position-absolute" data-bs-dismiss="modal">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    <i class="icon icon-close fs-70 text-danger lh-1 my-5 d-inline-block"></i>
+                                                    <h4 class="text-danger"><b>@item.StationName Silinecektir.</b></h4>
+                                                    <form asp-controller="Company" asp-action="Delete" asp-route-companyId="@item.Id" method="post">
+                                                        <p class="mg-b-20 mg-x-20">Silmek istediğinizden emin misiniz?</p>
+                                                        <button type="submit" class="btn btn-danger pd-x-25" data-bs-dismiss="modal">Sil</button>
+                                                        <button aria-label="Close" class="btn btn-succes pd-x-25" data-bs-dismiss="modal">İptal Et</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="dataTables_wrapper">
+            <div class="dataTables_length" id="table-length"></div>
+            <div class="dataTables_filter" id="table-search"></div>
+            <div class="dataTables_info" id="table-info"></div>
+            <div class="dataTables_paginate" id="table-pagination"></div>
+        </div>
+
+    </div>
+
+</div>

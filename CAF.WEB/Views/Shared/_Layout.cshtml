@@ -5,6 +5,9 @@
     @await Html.PartialAsync("~/Views/ManagerLayoutPartial/_HeadPartial.cshtml")
 
     @await RenderSectionAsync("Style", required: false)
+
+
+
 </head>
 <body class="app sidebar-mini ltr light-mode">
 
@@ -25,13 +28,6 @@
 
             <div class="main-content app-content mt-0">
                 <div class="side-app">
-
-
-                    @*   <div id="emailConfirmationSection">
-                        <!-- Buton yeri -->
-                    </div> *@
-
-
                     @RenderBody()
                 </div>
             </div>

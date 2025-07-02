@@ -162,7 +162,9 @@ public static class PersistenceServiceRegistratrion
 
 
         #region Jobs 
+        services.AddScoped<StationSyncService>();
         services.AddHostedService<StationBackgroundSyncJob>();
+       
         #endregion
 
         #endregion

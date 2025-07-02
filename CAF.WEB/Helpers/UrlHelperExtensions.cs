@@ -4,7 +4,7 @@ namespace CAF.WEB.Helpers;
 
 public static class UrlHelperExtensions
 {
-    public static bool IsMenuActive(this IUrlHelper urlHelper, string controller, string action = null, string area = null)
+    public static bool IsMenuActive(this IUrlHelper urlHelper, string area = null, string controller = null, string action = null)
     {
         var routeData = urlHelper.ActionContext.RouteData.Values;
         bool isActive = routeData["controller"]?.ToString() == controller;
@@ -22,7 +22,7 @@ public static class UrlHelperExtensions
         return isActive;
     }
 
-    public static bool IsMenuActive(this IUrlHelper urlHelper, params (string controller, string action, string area)[] routes)
+    public static bool IsMenuActive(this IUrlHelper urlHelper, params (string area, string controller, string action)[] routes)
     {
         var currentController = urlHelper.ActionContext.RouteData.Values["controller"]?.ToString();
         var currentAction = urlHelper.ActionContext.RouteData.Values["action"]?.ToString();

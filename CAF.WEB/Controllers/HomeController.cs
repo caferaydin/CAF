@@ -19,15 +19,7 @@ namespace CAF.WEB.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var stations = await _stationService.GetStations();
-
-            FatihModel fatihModel = new FatihModel
-            {
-                Station = stations,
-                Machine = stations
-            };  
-
-            return View(fatihModel);
+            return View();
         }
 
         public IActionResult Privacy()

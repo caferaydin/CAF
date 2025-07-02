@@ -51,6 +51,15 @@
                         <span class="side-menu__label">User Manager</span>
                     </a>
                 </li>
+                <li class="slide @(Url.IsMenuActive("Kronos" ,"Station" , "Index") ? "active" : "")">
+                    <a class="side-menu__item has-link @(Url.IsMenuActive("Kronos" ,"Station" , "Index") ? "active" : "")"
+                       asp-area="Kronos"
+                       asp-controller="Station"
+                       asp-action="Index">
+                        <i class="side-menu__icon fe fe-home"></i>
+                        <span class="side-menu__label">Station</span>
+                    </a>
+                </li>
 
                 @*  <li class="slide @(Url.IsMenuActive("Auth" ,"Login" , "Manager") ? "active" : "")">
                     <a class="side-menu__item has-link @(Url.IsMenuActive("Auth" ,"Login" , "Manager") ? "active" : "")"

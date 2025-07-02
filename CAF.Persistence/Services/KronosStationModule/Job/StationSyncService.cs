@@ -41,17 +41,17 @@ public class StationSyncService
     {
         var sources = new List<(string Source, BaseContext Context)>
             {
-                ("Alpet", _alpet),
-                ("Aytemiz", _aytemiz),
-                ("Street", _street),
-                ("BP", _bp),
-                ("GGG", _ggg),
-                ("Gorpet", _gorpet),
-                ("Modoglu", _modoglu),
-                ("Shell", _shell),
-                ("Tasco", _tasco),
-                ("Total", _total),
-                ("TP", _tp)
+                ("Alpet", _alpet), // 1
+                ("Aytemiz", _aytemiz), // 2
+                ("Street", _street), // 3
+                ("BP", _bp), // 4
+                ("GGG", _ggg), // 5
+                ("Gorpet", _gorpet), // 6
+                ("Modoglu", _modoglu), // 7
+                ("Shell", _shell), // 8
+                ("Tasco", _tasco),  // 9
+                ("Total", _total), // 10
+                ("TP", _tp) // 11
             };
 
         foreach (var (source, context) in sources)
